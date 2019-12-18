@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Movies Database</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css?family=Prata&display=swap" rel="stylesheet">
+
+	<link rel="stylesheet" href="css/open-iconic-bootstrap.min.css">
+	<link rel="stylesheet" href="css/animate.css">
+
+	<link rel="stylesheet" href="css/owl.carousel.min.css">
+	<link rel="stylesheet" href="css/owl.theme.default.min.css">
+	<link rel="stylesheet" href="css/magnific-popup.css">
+
+	<link rel="stylesheet" href="css/aos.css">
+
+	<link rel="stylesheet" href="css/ionicons.min.css">
+
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" href="css/nouislider.css">
+
+
+	<link rel="stylesheet" href="css/flaticon.css">
+	<link rel="stylesheet" href="css/icomoon.css">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+	<div class="main-section">
+
+		<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+			<div class="container">
+				<a class="navbar-brand" href="index.html">Movies Database</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+					aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="oi oi-menu"></span> Menu
+				</button>
+				<div class="collapse navbar-collapse" id="ftco-nav">
+					<ul class="navbar-nav ml-auto">
+						<li class="dropdown nav-item">
+							<a href="#" class="dropdown-toggle nav-link icon d-flex align-items-center"
+								data-toggle="dropdown">
+								<i class="ion-ios-apps mr-2"></i>
+								Browse Movies
+								<b class="caret"></b>
+							</a>
+							<div class="dropdown-menu dropdown-menu-left">
+								<a href="#actors" class="dropdown-item"><i class="ion-ios-apps mr-2"></i> Actors</a>
+								<a href="#movies" class="dropdown-item"><i class="ion-ios-document mr-2"></i> Movies</a>
+							</div>
+						</li>
+						<li class="dropdown nav-item">
+							<a href="#" class="dropdown-toggle nav-link icon d-flex align-items-center"
+								data-toggle="dropdown">
+								<i class="ion-ios-apps mr-2"></i>
+								Manage database
+								<b class="caret"></b>
+							</a>
+							<div class="dropdown-menu dropdown-menu-left">
+								<a href="#addactor" class="dropdown-item"><i class="ion-ios-apps mr-2"></i>Add Actor</a>
+								<a href="#addmovie" class="dropdown-item"><i class="ion-ios-document mr-2"></i>Add
+									Movie</a>
+								<a href="#addlink" class="dropdown-item"><i class="ion-ios-document mr-2"></i>Add link
+									between actor and movie</a>
+							</div>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<!-- END nav -->
+
+		<section class="hero-wrap js-fullheight">
+			<div class="container">
+				<div class="row description js-fullheight align-items-center justify-content-center">
+					<div class="col-md-8 text-center">
+						<div class="text">
+							<h2>Welcome on best Movie database in the World</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+
+		<section class="ftco-section" id="buttons">
+			<div class="container">
+				<div class="row">
+					<div class="col-4">
+						<h2 class="heading-section mb-4" id="actors">Actors <br></h2>
+						<div class="form-group">
+							<input type="text" id="sa" class="form-control" required v-model="searchActors">
+							<label class="form-control-placeholder" for="sa">Find actor</label>
+						</div>
+						<div class="m-3" v-for="actor in displayedActors">
+							<button type="button" class="btn btn-outline-success" v-on:click="selectActor" v-bind:tag="actor.name">
+								{{actor.name}} ({{actor.born}})</button>
+						</div>
+					</div>
+
+					<div class="col-3 text-center">
+						<h2 class="heading-section mb-4">Actions <br></h2>
+						<div class="col-auto">
+							<button type="button" class="btn btn-info btn-block" v-on:click="showMovies">Show Movies for
+								selected Actor</button>
+							<button type="button" class="btn btn-info btn-block" v-on:click="showActors">Show Actors for
+								selected Movie</button>
+
+							<button type="button" class="btn btn-info btn-block" v-on:click="refreshMovies">Refresh
+								Movies</button>
+							<button type="button" class="btn btn-info btn-block" v-on:click="refreshActors">Refresh
+								Actors</button>
+						</div>
+						<div class="btn-group-vertical mt-3" id="addlink">
+							<input type="text" id="role" class="form-control" required v-model="role">
+							<label class="form-control-placeholder" for="role">Role</label>
+							<button type="button" class="btn btn-success mb-3" v-on:click="link">Link</button>
+							<span class="bmd-help">Assign actor to a movie for a role</span>
+						</div>
+
+					</div>
+
+
+					<div class="col-4">
+						<h2 class="heading-section mb-4" id="movies">Movies <br> </h2>
+						<div class="form-group">
+							<input type="text" id="sm" class="form-control" required v-model="searchMovies">
+							<label class="form-control-placeholder" for="sm">Find movie</label>
+						</div>
+						<div class="col mb-3" v-for="movie in displayedMovies">
+							<button type="button" class="btn btn-outline-success" v-bind:title="movie.tagline" v-bind:tag="movie.title"
+								v-on:click="selectMovie">{{movie.title}} ({{movie.released}})</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="ftco-section" id="forms">
+			<div class="container">
+				<div class="row">
+					<div class="col-5 m-3">
+						<h2 class="heading-section mb-4" id="addactor">Add actor <br></h2>
+
+						<div class="form-group mt-3 ">
+							<input type="text" id="name" class="form-control" required v-model="name">
+							<label class="form-control-placeholder" for="name">Name and surname of actor</label>
+						</div>
+
+						<div class="form-group mt-3 ">
+							<input type="number" id="born" class="form-control" required v-model="born">
+							<label class="form-control-placeholder" for="born">Year of birth</label>
+						</div>
+
+						<button type="button" class="btn btn-success mb-3" v-on:click="addActor">Add actor to
+							database</button>
+
+					</div>
+					<div class="col-5 m-3">
+						<h2 class="heading-section mb-4" id="addmovie">Add movie <br></h2>
+
+						<div class="form-group mt-3">
+							<input type="text" id="title" class="form-control" required v-model="title">
+							<label class="form-control-placeholder" for="title">Title of movie</label>
+						</div>
+
+						<div class="form-group mt-3 ">
+							<input type="text" id="tagline" class="form-control" required v-model="tagline">
+							<label class="form-control-placeholder" for="tagline">Tag line</label>
+						</div>
+
+						<div class="form-group mt-3 ">
+							<input type="number" id="released" class="form-control" required v-model="released">
+							<label class="form-control-placeholder" for="released">Year of premiere</label>
+						</div>
+
+						<button type="button" class="btn btn-success mb-3" v-on:click="addMovie">Add movie to
+							database</button>
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<footer class="ftco-section ftco-section-2">
+			<div class="col-md-12 text-center">
+				<p class="mb-0">
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					Copyright &copy;
+					<script>
+						document.write(new Date().getFullYear());
+
+					</script> All rights reserved | This template is made with <i class="icon-heart" aria-hidden="true"></i> by
+					<a href="https://colorlib.com" target="_blank">Colorlib</a>
+					<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+				</p>
+			</div>
+		</footer>
+
+	</div>
+
+	<!-- loader -->
+	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+			<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+			<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10"
+				stroke="#F96D00" /></svg></div>
+
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery-migrate-3.0.1.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.easing.1.3.js"></script>
+	<script src="js/jquery.waypoints.min.js"></script>
+	<script src="js/jquery.stellar.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/aos.js"></script>
+
+	<script src="js/nouislider.min.js"></script>
+	<script src="js/moment-with-locales.min.js"></script>
+	<script src="js/bootstrap-datetimepicker.min.js"></script>
+	<script src="js/main.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="core.js"></script>
+
+</body>
+
+</html>
